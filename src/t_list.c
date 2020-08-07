@@ -198,10 +198,8 @@ void pushGenericCommand(client *c, int where) {
     int j, pushed = 0;
     robj *lobj = lookupKeyWrite(c->db,c->argv[1]);
 
-    if (lobj && lobj->type != OBJ_LIST) {
-        addReply(c,shared.wrongtypeerr);
+if (lobj && checkType(c, lobj, OBJ_ZSET))
         return;
-    }
 
     for (j = 2; j < c->argc; j++) {
         if (!lobj) {
